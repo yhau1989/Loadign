@@ -1,0 +1,78 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Site.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+
+    <link rel="stylesheet" type="text/css" href="Content/semantic-ui-rtl/semantic.rtl.css">
+    <script src="Scripts/jquery-1.8.1.js" type="text/javascript" charset="utf-8"></script>
+    <script src="Content/semantic-ui-rtl/semantic.js" type="text/javascript" charset="utf-8"></script>
+   
+       
+
+</head>
+<body>
+    <form id="form1" runat="server">
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+       <%-- <script type="text/javascript"> 
+            Sys.WebForms.PageRequestManager.getInstance().add_endRequest(InIEvent);
+         </script> --%>
+    <div>
+        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+        
+        </asp:ContentPlaceHolder>
+    </div>
+
+        <div class="ui basic modal">
+             <div class="ui active inverted dimmer">
+                <div class="ui text loader">Cargando. . . .</div>
+              </div>
+        </div>
+
+    </form>
+</body>
+     <script type="text/javascript">
+        function beforeAsyncPostBack() {
+            //var curtime = new Date();
+            //console.log('Time before PostBack:   ' + curtime);           
+
+            $('.ui.basic.modal')
+              .modal({
+                  inverted: true,
+                  blurring: true
+              })
+              .modal('show');
+        }
+ 
+        function afterAsyncPostBack() {
+            //var curtime = new Date();           
+            //console.log('Time after PostBack:    ' + curtime);
+
+            $('.ui.basic.modal').modal('hide');
+        }
+ 
+        Sys.Application.add_init(appl_init);
+ 
+        function appl_init() {
+            var pgRegMgr = Sys.WebForms.PageRequestManager.getInstance();
+            pgRegMgr.add_beginRequest(BeginHandler);
+            pgRegMgr.add_endRequest(EndHandler);
+        }
+ 
+        function BeginHandler() {
+            beforeAsyncPostBack();
+        }
+ 
+        function EndHandler() {           
+            afterAsyncPostBack();
+        }
+ 
+       
+    </script>
+   
+
+</html>
